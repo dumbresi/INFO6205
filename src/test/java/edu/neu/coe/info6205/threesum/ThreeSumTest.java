@@ -156,25 +156,30 @@ public class ThreeSumTest {
 
     @Test
     public void Test1(){
-        Supplier<int[]> intsSupplier = new Source(500, 1000).intsSupplier(10);
-        int[] ints = intsSupplier.get();
-        ThreeSum targetQuadratic = new ThreeSumQuadratic(ints);
-        ThreeSum targetQuadrithmic = new ThreeSumQuadrithmic(ints);
-        ThreeSum targetCubic = new ThreeSumCubic(ints);
-        ThreeSum targetCaliper = new ThreeSumQuadraticWithCalipers(ints);
-        try(Stopwatch stopwatch= new Stopwatch();){
-            Triple[] triplesCubic = targetCubic.getTriples();
-            System.out.println("Cubic time:"+stopwatch.lap());
-            Triple[] triplesQuadrithmic = targetQuadrithmic.getTriples();
-            System.out.println("Quadrithmic time:"+stopwatch.lap());
-            Triple[] triplesQuadratic = targetQuadratic.getTriples();
-            System.out.println("Quadratic time:"+stopwatch.lap());
-//            Triple[] triplesCalipers = targetCaliper.getTriples();
-//            System.out.println("Quadratic with Caliper time:"+stopwatch.lap());
-            assertEquals(triplesCubic.length,triplesQuadratic.length);
-//            assertEquals(triplesQuadrithmic.length,triplesCalipers.length);
-            stopwatch.close();
+        for(int i=2;i<10;i+=2){
+            Supplier<int[]> intsSupplier = new Source(i*100, 1000).intsSupplier(10);
+            i++;
+            int[] ints = intsSupplier.get();
+            ThreeSum targetQuadratic = new ThreeSumQuadratic(ints);
+            ThreeSum targetQuadrithmic = new ThreeSumQuadrithmic(ints);
+            ThreeSum targetCubic = new ThreeSumCubic(ints);
+            ThreeSum targetCaliper = new ThreeSumQuadraticWithCalipers(ints);
+            try(Stopwatch stopwatch= new Stopwatch();){
+                System.out.println("Array length:"+i*100);
+                Triple[] triplesCubic = targetCubic.getTriples();
+                System.out.println("Cubic time:"+stopwatch.lap());
+                Triple[] triplesQuadrithmic = targetQuadrithmic.getTriples();
+                System.out.println("Quadrithmic time:"+stopwatch.lap());
+                Triple[] triplesQuadratic = targetQuadratic.getTriples();
+                System.out.println("Quadratic time:"+stopwatch.lap());
+                Triple[] triplesCalipers = targetCaliper.getTriples();
+                System.out.println("Quadratic with Caliper time:"+stopwatch.lap());
+                assertEquals(triplesCubic.length,triplesQuadratic.length);
+                assertEquals(triplesQuadrithmic.length,triplesCalipers.length);
+                stopwatch.close();
+            }
         }
+
 
 
     }

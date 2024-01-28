@@ -50,25 +50,21 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
         List<Triple> triples = new ArrayList<>();
         int left=0;
         int right=a.length-1;
-        if(left==i){
-            left++;
-        }else if(right==i){
-            right--;
-        }
-        while(right< a.length && left<right){
-            int sum = a[left]+a[right];
+//        if(left==i){
+//            left++;
+//        }else if(right==i){
+//            right--;
+//        }
+        while(left<i && right>i){
+            int sum = a[left]+a[right]+a[i];
             Triple t =new Triple(a[left],a[i],a[right]);
             if(function.apply(t)==0){
-
                 triples.add(t);
                 left++;
                 right--;
-            } else if(sum<a[i] && left!=i){
+            } else if(sum<0){
                 left++;
-            }else if(sum>a[i] && right!=i){
-                right--;
-            }else{
-                left++;
+            }else if(sum>0){
                 right--;
             }
             }
