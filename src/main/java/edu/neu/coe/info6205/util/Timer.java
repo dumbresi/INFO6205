@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.util;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -61,33 +63,40 @@ public class Timer {
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
+        double time=0;
+        for(int i=0;i<n;i++){
+            if(!warmup){
+                T value= supplier.get();
+                T processedValue=null;
+                if(preFunction!=null){
+                    processedValue=preFunction.apply(value);
+                }
 
+                long clock=getClock();
+                U result;
+                if(processedValue!=null){
+                    result= function.apply(processedValue);
+                    lap();
+                }else{
+                    result=function.apply(value);
+                    lap();
+                }
+                if(postFunction!=null){
+                    postFunction.accept(result);
+                }
 
+//                long ticks=getTicks();
 
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
+        pause();
+        time=meanLapTime();
+        resume();
 
 
         // SKELETON
-         return 0;
+         return time;
         // END SOLUTION
     }
 
@@ -213,10 +222,9 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
-        // TO BE IMPLEMENTED 
-
+        // TO BE IMPLEMENTED
+        return System.nanoTime();
         // SKELETON
-         return 0;
         // END SOLUTION
     }
 
@@ -228,10 +236,10 @@ public class Timer {
      * @return the corresponding number of milliseconds.
      */
     private static double toMillisecs(long ticks) {
-        // TO BE IMPLEMENTED 
-
+        // TO BE IMPLEMENTED
+        double milli= ticks/1000000;
         // SKELETON
-         return 0;
+         return milli;
         // END SOLUTION
     }
 
