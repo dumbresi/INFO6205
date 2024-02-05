@@ -3,10 +3,17 @@
  */
 package edu.neu.coe.info6205.sort.elementary;
 
-import edu.neu.coe.info6205.sort.BaseHelper;
-import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.sort.SortWithHelper;
+import edu.neu.coe.info6205.sort.*;
+import edu.neu.coe.info6205.util.Benchmark_Timer;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.StatPack;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Class InsertionSort.
@@ -15,6 +22,31 @@ import edu.neu.coe.info6205.util.Config;
  */
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
+    public static void main(String[] args){
+        final Random random = new Random();
+        int n=100;
+        final Supplier<Integer[]> intsSupplier = () ->
+        {
+            Integer[] result = (Integer[]) Array.newInstance(Integer.class, n);
+            for (int i = 0; i < n; i++) result[i] = random.nextInt();
+            return result;
+        };
+
+        final Config config = Config.setupConfig("true", "0", "1", "", "");
+        Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
+
+        final double t1 = new Benchmark_Timer<Integer[]>(
+                helper.getDescription(),
+                (xs)->Arrays.copyOf(xs,xs.length),
+                (xs)->{
+                    SortWithHelper<Integer> sorter = new InsertionSort<Integer>(helper);
+                    sorter.sort(xs,0,xs.length);
+                    },
+                null
+        ).runFromSupplier(intsSupplier, 100);
+
+        System.out.println(t1);
+    }
     /**
      * Constructor for any sub-classes to use.
      *
