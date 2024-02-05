@@ -65,15 +65,15 @@ public class Timer {
         // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
         double time=0;
         for(int i=0;i<n;i++){
-            if(!warmup){
+//            if(!warmup){
                 T value= supplier.get();
                 T processedValue=null;
-                if(preFunction!=null){
-                    processedValue=preFunction.apply(value);
+                pause();
+                if(preFunction!=null) {
+                    processedValue = preFunction.apply(value);
                 }
-
-                long clock=getClock();
                 U result;
+                resume();
                 if(processedValue!=null){
                     result= function.apply(processedValue);
                     lap();
@@ -81,22 +81,18 @@ public class Timer {
                     result=function.apply(value);
                     lap();
                 }
+                pause();
                 if(postFunction!=null){
                     postFunction.accept(result);
                 }
-
-//                long ticks=getTicks();
-
-            }
+                resume();
+//            }
 
         }
         pause();
         time=meanLapTime();
         resume();
-
-
-        // SKELETON
-         return time;
+        return time;
         // END SOLUTION
     }
 
@@ -237,7 +233,7 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // TO BE IMPLEMENTED
-        double milli= ticks/1000000;
+        double milli= (double) ticks/1000000;
         // SKELETON
          return milli;
         // END SOLUTION
