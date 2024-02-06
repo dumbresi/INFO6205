@@ -24,13 +24,38 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     public static void main(String[] args){
         final Random random = new Random();
-        int n=100;
+        int n=1600;
         final Supplier<Integer[]> intsSupplier = () ->
         {
             Integer[] result = (Integer[]) Array.newInstance(Integer.class, n);
             for (int i = 0; i < n; i++) result[i] = random.nextInt();
             return result;
+
         };
+
+//        final Supplier<Integer[]> partiallyOrderedIntsSupplier = () ->
+//        {
+//            Integer[] result = (Integer[]) Array.newInstance(Integer.class, n);
+//            for (int i = 0; i < n; i++) {
+//                if (random.nextDouble() < 0.8) {
+//                    result[i] = i;
+//                } else {
+//                    result[i] = random.nextInt();
+//                }
+//            }
+//            return result;
+//        };
+
+//        final Supplier<Integer[]> reverseOrderedIntsSupplier = () ->
+//        {
+//            Integer[] result = (Integer[]) Array.newInstance(Integer.class, n);
+//            for (int i = 0; i < n; i++) {
+//                result[i] = n - i;
+//            }
+//            return result;
+//        };
+
+
 
         final Config config = Config.setupConfig("true", "0", "1", "", "");
         Helper<Integer> helper = HelperFactory.create("InsertionSort", n, config);
