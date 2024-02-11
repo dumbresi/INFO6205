@@ -43,6 +43,27 @@ public class UF_HWQUPC implements UF {
         this.pathCompression = pathCompression;
     }
 
+    public static void main(String[] args){
+//        UF_HWQUPC unionFind= new UF_HWQUPC(3,false);
+//        unionFind.connect(3,4);
+//        unionFind.connect(7,5);
+//        unionFind.connect(7,3);
+//        unionFind.connect(1,4);
+//        unionFind.connect(4,7);
+//        unionFind.connect(0, 1);
+//        unionFind.connect(2, 1);
+//        unionFind.show();
+        UF_HWQUPC h = new UF_HWQUPC(6, false);
+        h.connect(0, 1);
+        h.connect(0, 2);
+        h.connect(3, 4);
+        h.connect(3, 5);
+        h.connect(0, 3);
+        h.show();
+
+
+    }
+
     /**
      * Initializes an empty union–find data structure with {@code n} sites
      * {@code 0} through {@code n-1}. Each site is initially in its own
@@ -80,14 +101,25 @@ public class UF_HWQUPC implements UF {
      */
     public int find(int p) {
         validate(p);
-        int root = p;
-        // TO BE IMPLEMENTED 
+        int i=p;
+        if(pathCompression){
+                doPathCompression(i);
+            return parent[i];
+        }else{
+            while (i!=parent[i]){
+                i=parent[i];
+            }
+            return parent[i];
+        }
+
+        // TO BE IMPLEMENTED
 
 
 
 
 
-throw new RuntimeException("implementation missing");
+
+//throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -174,9 +206,27 @@ throw new RuntimeException("implementation missing");
 
     private void mergeComponents(int i, int j) {
         // TO BE IMPLEMENTED  make shorter root point to taller one
+        int root1=0;
+        int root2=0;
+        while(i!=getParent(i)){
+            i=parent[i];
+            root1++;
+        }
+        while(j!=getParent(j)){
+            j=getParent(j);
+            root2++;
+            System.out.println(j+"root2"+root2);
+        }
 
-
-
+        if(height[i]>=height[j]){
+            updateParent(j,i);
+            this.height[i]=height[j]+1;
+//            updateHeight(i,height[j]+1);
+        }else{
+            updateParent(i,j);
+            this.height[j]=height[i]+1;
+//            updateHeight(j,height[i]+1);
+        }
 
 
 
@@ -190,6 +240,12 @@ throw new RuntimeException("implementation missing");
      */
     private void doPathCompression(int i) {
         // TO BE IMPLEMENTED  update parent to value of grandparent
+        parent[i]=parent[parent[i]];
+//        int Parent= getParent(i);
+//        int grandParent=getParent(Parent);
+//        System.out.println("i:"+i+"parent:"+Parent);
+//        parent[i]=grandParent;
+//        System.out.println("i:"+i+"grandparent:"+grandParent);
 
         // SKELETON
         // END SOLUTION
