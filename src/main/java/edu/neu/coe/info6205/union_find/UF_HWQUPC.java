@@ -215,7 +215,6 @@ public class UF_HWQUPC implements UF {
         while(j!=getParent(j)){
             j=getParent(j);
             root2++;
-            System.out.println(j+"root2"+root2);
         }
 
         if(height[i]>=height[j]){
