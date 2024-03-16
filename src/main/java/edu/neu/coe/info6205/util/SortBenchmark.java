@@ -101,6 +101,7 @@ public class SortBenchmark {
         if (isConfigBenchmarkStringSorter("heapsort")) {
             Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
             runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
+            System.out.println(helper.showStats());
         }
 
         if (isConfigBenchmarkStringSorter("introsort"))
@@ -338,7 +339,7 @@ public class SortBenchmark {
 
     private void runMergeSortBenchmark(String[] words, int nWords, int nRuns, Boolean insurance, Boolean noCopy) {
         Config x = config.copy(MergeSort.MERGESORT, MergeSort.INSURANCE, insurance.toString()).copy(MergeSort.MERGESORT, MergeSort.NOCOPY, noCopy.toString());
-        runStringSortBenchmark(words, nWords, nRuns, new MergeSort<>(nWords, x), timeLoggersLinearithmic);
+        runStringSortBenchmark(words, nWords, nRuns, new MergeSortBasic<>(nWords, x), timeLoggersLinearithmic);
     }
 
     private void doLeipzigBenchmark(String resource, int nWords, int nRuns) throws FileNotFoundException {
