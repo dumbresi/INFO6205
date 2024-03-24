@@ -62,8 +62,8 @@ public class Position {
         if (matrix[x][y] < 0) {
             // TO BE IMPLEMENTED
             matrix[x][y]=player;
-            System.out.println("move made");
-            System.out.println(new Position(matrix, count+1, player) );
+//            System.out.println("move made");
+            System.out.println(new Position(matrix, count+1, player).render() );
 //            System.out.println();
              return new Position(matrix, count+1, player);
             // END SOLUTION
