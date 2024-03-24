@@ -60,8 +60,12 @@ public class Position {
         if (player == last) throw new RuntimeException("consecutive moves by same player: " + player);
         int[][] matrix = copyGrid();
         if (matrix[x][y] < 0) {
-            // TO BE IMPLEMENTED 
-             return null;
+            // TO BE IMPLEMENTED
+            matrix[x][y]=player;
+            System.out.println("move made");
+            System.out.println(new Position(matrix, count+1, player) );
+//            System.out.println();
+             return new Position(matrix, count+1, player);
             // END SOLUTION
         }
         throw new RuntimeException("Position is occupied: " + x + ", " + y);
@@ -78,6 +82,7 @@ public class Position {
         for (int i = 0; i < gridSize; i++)
             for (int j = 0; j < gridSize; j++)
                 if (grid[i][j] < 0)
+                    result.add(new int[]{i,j});
                     // TO BE IMPLEMENTED 
          ;
         // END SOLUTION
@@ -127,7 +132,11 @@ public class Position {
      * @return an Optional Integer.
      */
     public Optional<Integer> winner() {
-        if (count > 4 && threeInARow()) return Optional.of(last);
+        boolean check =threeInARow();
+        if (count > 4 && check ){
+            System.out.println("Winner result:"+check);
+            return Optional.of(last);
+        }
         return Optional.empty();
     }
 
@@ -140,7 +149,30 @@ public class Position {
      * @return true if there are three cells in a line that are the same and equal to the last player.
      */
     boolean threeInARow() {
-        // TO BE IMPLEMENTED 
+
+       for(int i=0;i<gridSize;i++){
+           int[] row=projectRow(i);
+           int[] col=projectCol(i);
+           if(row[0]==row[1] && row[1]==row[2] && row[1]!=-1){
+               System.out.println("Winner row:"+i);
+               return true;
+           }
+           if(col[0]==col[1] && col[1]==col[2] && col[2]!=-1) {
+               System.out.println("Winner column:"+i);
+               return true;
+           }
+       }
+       int[] diag1=projectDiag(true);
+       int[] diag2=projectDiag(false);
+       if(diag1[0]==diag1[1] && diag1[1]==diag1[2] && diag1[1]!=-1){
+           System.out.println("Winner 1st diagonal:");
+           return true;
+       }
+       if(diag2[0]==diag2[1] && diag2[1]==diag2[2] && diag2[1]!=-1){
+           System.out.println("Winner 2nd diagonal:");
+           return true;
+       }
+        // TO BE IMPLEMENTED
          return false;
         // END SOLUTION
     }
